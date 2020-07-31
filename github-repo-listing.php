@@ -24,19 +24,22 @@ function mw_custom_github_listing_styles() {
 add_action( 'wp_enqueue_scripts', 'mw_custom_github_listing_styles' );
 
 // Create function to be called upon [gitlist] shortcode
-function git_display_function( $attr ) {
+function mw_git_display_function( $attr ) {
     # array to store shortcode parameters
-    $args = shortcode_atts( array(
+    $mw_git_display_function = shortcode_atts( array(
         'git-user' => 'mike-weiner',
     ), $attr );
 
+     # strip out ALL spaces as the API URL cannot have any breaks
+    $mw_git_display_function['git-user'] = preg_replace("/\s+/", "", $mw_git_display_function['git-user']);
+
     # check that git-user attribute is NOT empty
-    if ($args['git-user'] == '') {
-        $args['git-user'] = 'mike-weiner';
-    }
+    if ($mw_git_display_function['git-user'] == '') {
+        $mw_git_display_function['git-user'] = 'mike-weiner';
+    } 
 
     # instance variables
-    $mw_github_user_name = $args['git-user']; # Github User Name
+    $mw_github_user_name = $mw_git_display_function['git-user']; # Github User Name
     $mw_github_api_url = "https://api.github.com/users/" . $mw_github_user_name . "/repos"; # Do not change
 
     # go to Github, grab json data from Github, and decode it
@@ -47,7 +50,7 @@ function git_display_function( $attr ) {
         return "<div class='mw-github-container'>We're sorry. There appeared to be an error. Please re-evaluate your shortcode.</div>"; // Bail early
     }
 
-    # read decoded JSON data into a dictionary
+    # read decoded JSON data into an array
     $mw_github_data_dict = json_decode(wp_remote_retrieve_body($mw_github_data), true);
 
     # check if array is empty -> if so, return early
@@ -94,4 +97,4 @@ function git_display_function( $attr ) {
 
     return $mw_html_output;
 }
-add_shortcode('gitlist', 'git_display_function'); // Add hook to for custom [gitlist] shortcode
+add_shortcode('gitlist', 'mw_git_display_function'); // Add hook to for custom [gitlist] shortcode
