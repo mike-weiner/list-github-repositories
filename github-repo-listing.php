@@ -30,6 +30,11 @@ function git_display_function( $attr ) {
         'git-user' => 'mike-weiner',
     ), $attr );
 
+    # check that git-user attribute is NOT empty
+    if ($args['git-user'] == '') {
+        $args['git-user'] = 'mike-weiner';
+    }
+
     # instance variables
     $mw_github_user_name = $args['git-user']; # Github User Name
     $mw_github_api_url = "https://api.github.com/users/" . $mw_github_user_name . "/repos"; # Do not change
