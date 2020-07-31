@@ -39,7 +39,7 @@ You can find your Github username within a Github URL or by selecting your profi
 
 Navigate to the page where the table is being displayed. Begin editing the page and examine the `[gitlist git-user=""]` shortcode on the page. Double check that a Github username is entered within the double quotes after `git-user=` in the shortcode. Please check that this is the correct user. 
 
-***If you Do not include any Github user name within the double quotes then the repositories from user `mike-weiner` (me) will be displayed.*** 
+***If you Do not include any Github user name within the double quotes OR if you remove `git-user=""` from the shortcode entirely then the repositories from user `mike-weiner` (me) will be displayed.*** 
 
 ## Screenshots
 
