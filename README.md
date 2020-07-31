@@ -12,7 +12,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html <br>
 A custom WordPress plugin that uses a shortcode to display an HTML table with all of the public repositories of a specific Github user.
 
 ## Description
-This plugin uses a custom shortcode ([gitlist git-user=""]) to display an HTML table with all of the public repositories of a specified Github user. The repository name (with a link to the repository) and the description of the repository is displayed.
+This plugin uses a custom shortcode `[gitlist git-user=""]` to display an HTML table with all of the public repositories of a specified Github user. The repository name (with a link to the repository) and the description of the repository is displayed.
 
 ## Installation
 
