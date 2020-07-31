@@ -24,9 +24,14 @@ function mw_custom_github_listing_styles() {
 add_action( 'wp_enqueue_scripts', 'mw_custom_github_listing_styles' );
 
 // Create function to be called upon [gitlist] shortcode
-function git_display_function() {
+function git_display_function( $attr ) {
+    # array to store shortcode parameters
+    $args = shortcode_atts( array(
+        'git-user' => 'mike-weiner',
+    ), $attr );
+
     # instance variables
-    $mw_github_user_name = "mike-weiner"; # Github User Name
+    $mw_github_user_name = $args['git-user']; # Github User Name
     $mw_github_api_url = "https://api.github.com/users/" . $mw_github_user_name . "/repos"; # Do not change
 
     # go to Github, grab json data from Github, and decode it
