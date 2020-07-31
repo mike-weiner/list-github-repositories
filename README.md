@@ -57,4 +57,4 @@ Initial release!
 ## Arbitrary section
 
 ### Github Repository
-The Github Repository can be found here: https://github.com/mike-weiner/github-repo-listing/releases.
+The Github Repository can be found here: https://github.com/mike-weiner/list-github-repositories/.
