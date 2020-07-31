@@ -2,7 +2,7 @@
 /**
  * Plugin Name: List Github Repositories
  * Plugin URI: https://michaelweiner.org/
- * Description: Display a table of information about all of the public repositories of a Github user.
+ * Description: Display a table with information about all of the public repositories for a specific Github user.
  * Author: Michael Weiner
  * Author URI: https://michaelweiner.org/
  * Version: 0.0.1
