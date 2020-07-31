@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Github Repository Listing
+ * Plugin Name: List Github Repositories
  * Plugin URI: https://michaelweiner.org/
  * Description: Display a table of information about all of the public repositories of a Github user.
  * Author: Michael Weiner
