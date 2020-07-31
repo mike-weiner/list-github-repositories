@@ -1,12 +1,13 @@
 # List Github Repositories
- Plugin Name: List Github Repositories <br>
- Plugin URI: https://michaelweiner.org/ <br>
- Description: Display a table with information about all of the public repositories for a specific Github user. <br>
- Author: Michael Weiner <br>
- Author URI: https://michaelweiner.org/ <br>
- Version: 0.0.1 <br>
- License: GPL2+ <br>
- License URI: http://www.gnu.org/licenses/gpl-2.0.txt <br>
+Contributors: [vikings412](https://profiles.wordpress.org/vikings412/) <br>
+Donate Link: https://paypal.me/michaelw13 <br>
+Tags: github-api, github-list, github-table, wordpress-table  <br>
+Requires at least: 5.0 <br>
+Tested up to: 5.5 <br>
+Stable tag: 3.3.2 <br>
+Requires PHP: 7.0.0 <br>
+License: GPLv2 or later <br>
+License URI: https://www.gnu.org/licenses/gpl-2.0.html <br>
 
 A custom WordPress plugin that uses a shortcode to display an HTML table with all of the public repositories of a specific Github user.
 
