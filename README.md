@@ -17,9 +17,9 @@ This plugin uses a custom shortcode `[gitlist git-user=""]` to display an HTML t
 ## Installation
 
 ### From the Github Repository
-Go to the [releases](https://github.com/mike-weiner/list-github-repositories/releases) section of the repository and download the `list-github-repositories.[version].zip` from the most recent release.
+Go to the [releases](https://github.com/mike-weiner/list-github-repositories/releases) section of the repository and download the `mw-list-github-repositories.[version].zip` from the most recent release.
 
-Once you have downloaded the `list-github-repositories.[version].zip` from the releases section of this repo sign into the backend of your WordPress website. From your WordPress administration panel, go to `Plugins > Add New` and click the gray `Upload Plugin` button at the top of the page. Select the `list-github-repositories.[version].zip` file to upload from your machine when prompted.
+Once you have downloaded the `mw-list-github-repositories.[version].zip` from the releases section of this repo sign into the backend of your WordPress website. From your WordPress administration panel, go to `Plugins > Add New` and click the gray `Upload Plugin` button at the top of the page. Select the `mw-list-github-repositories.[version].zip` file to upload from your machine when prompted.
 
 WordPress will install the plugin. Once the installation is complete, you will be able to activate the plugin and begin using it! Enjoy! 
 
