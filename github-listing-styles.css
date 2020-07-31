@@ -1,0 +1,40 @@
+/*-----------------------------------------------------------------------------------*/
+/* maw-resources post-type display */
+/*-----------------------------------------------------------------------------------*/
+
+.mw-github-container {
+    width: 100%;
+    margin: 0 0 30px;
+}
+
+.mw-github-header-row {
+    border-bottom-width: medium;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(191, 191, 191);
+}
+
+.mw-github-data-row {
+    background-color: #f9f9f9;
+}
+
+.mw-github-header {
+    font-size: 16px;
+    color: #000;
+    text-align: left;
+}
+
+.mw-name-data {
+    width: 25%;
+}
+
+.mw-description-data {
+    width: 75%;
+}
+
+.mw-name-data, .mw-description-data {
+    font-size: 14px;
+}
+
+.mw-github-link {
+    font-weight: bold;
+}
