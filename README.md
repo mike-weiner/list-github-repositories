@@ -42,15 +42,15 @@ If you have any questions or issues please open a [new issue on the Github repos
 
 First, make sure that the plugin `List Github Repositories` is installed and activated. To check this, click on the `Plugins` option from the left-hand administration sidebar in WordPress. Once the page loads, make sure `List Github Repositories` is activated. 
 
-Then navigate to the page you would like to display the table on. Begin editing the page and paste the `[gitlist git-user=""]` shortcode onto the page. Within the square brackets specify the Github user name that you would like to generate the table for in between the double-quotes after `git-user=`. 
+Then navigate to the page you would like to display the table on. Begin editing the page and paste the `[gitlist user=""]` shortcode onto the page. Within the square brackets specify the Github user name that you would like to generate the table for in between the double-quotes after `user=`. 
 
 You can find your Github username within a Github URL or by selecting your profile picture in the upper right-hand corner of Github's website and copy the name listed under: "Signed in as". ***Do not include any symbols with the Github user name.*** 
 
 ### Why are the repositories being displayed not from the correct user?
 
-Navigate to the page where the table is being displayed. Begin editing the page and examine the `[gitlist git-user=""]` shortcode on the page. Double check that a Github username is entered within the double quotes after `git-user=` in the shortcode. Please check that this is the correct user name. 
+Navigate to the page where the table is being displayed. Begin editing the page and examine the `[gitlist user=""]` shortcode on the page. Double check that a Github username is entered within the double quotes after `user=` in the shortcode. Please check that this is the correct user name. 
 
-***If you do not include any Github user name within the double quotes OR if you remove `git-user=""` from the shortcode entirely then the repositories from Github user `mike-weiner` (me) will be displayed.*** 
+***If you do not include any Github user name within the double quotes OR if you remove `user=""` from the shortcode entirely then the repositories from Github user `mike-weiner` (me) will be displayed.*** 
 
 ## Screenshots
 
@@ -58,8 +58,10 @@ Navigate to the page where the table is being displayed. Begin editing the page 
 
 ### 0.0.2
 * Released on August 3, 2020
+* Added: Shortcode attribute `num` allows the user to specify how many repositories should be displayed. (Note: Current limit from Github API is 100)
 * Added: Shortcode attribute `order` allows the user to specify if the repository table should be displayed in `asc` or `desc` order
 * Added: Shortcode attribute `sort` allows the user to specify if repositories should be sorted by `created` (date), `updated` (date), `pushed` (date) or by `full_name` (repo name)
+* Modifed: Shortcode attribute `git-user` has been renamed to `user` for clarity
 * Edited: github-repo-listing.php
 * Edited: README.md
 
