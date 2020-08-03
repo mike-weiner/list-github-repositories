@@ -5,7 +5,7 @@
  * Description: Display a table with information about all of the public repositories for a specific Github user.
  * Author: Michael Weiner
  * Author URI: https://michaelweiner.org/
- * Version: 0.0.1
+ * Version: 0.0.2
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -25,27 +25,54 @@ add_action( 'wp_enqueue_scripts', 'mw_custom_github_listing_styles' );
 
 // Create function to be called upon [gitlist] shortcode
 function mw_git_display_function( $attr ) {
+
+    # array to store valid parameter values for 'order' attribute for Github API
+    $mw_github_direction_params = array("asc", "desc");
+
+    # array to store valid parameter values for 'sort' attribute for Github API
+    $mw_github_sort_params = array("created", "updated", "pushed", "full_name");
+
     # array to store shortcode parameters
     $mw_git_display_function = shortcode_atts( array(
-        'git-user' => 'mike-weiner',
+        'num' => '',
+        'order' => '',
+        'sort' => '',
+        'user' => 'mike-weiner',
     ), $attr );
 
      # strip out ALL spaces as the API URL cannot have any breaks
-    $mw_git_display_function['git-user'] = preg_replace("/\s+/", "", $mw_git_display_function['git-user']);
+    $mw_git_display_function['user'] = preg_replace("/\s+/", "", $mw_git_display_function['user']);
 
-    # check that git-user attribute is NOT empty
-    if ($mw_git_display_function['git-user'] == '') {
-        $mw_git_display_function['git-user'] = 'mike-weiner';
+    # check that user attribute is NOT empty
+    if ($mw_git_display_function['user'] == '') {
+        $mw_git_display_function['user'] = 'mike-weiner';
     } 
 
-    # instance variables
-    $mw_github_user_name = $mw_git_display_function['git-user']; # Github User Name
-    $mw_github_api_url = "https://api.github.com/users/" . $mw_github_user_name . "/repos"; # Do not change
+    # get Github username from shortcode attribute
+    $mw_github_user_name = $mw_git_display_function['user']; # Github User Name
+
+    # establish JSON request URL
+    $mw_github_api_url = "https://api.github.com/users/" . $mw_github_user_name . "/repos";
+
+    # check for valid order parameter
+    if (in_array(strtolower($mw_git_display_function['order']), $mw_github_direction_params)) {
+        $mw_github_api_url = $mw_github_api_url . "?direction=" . $mw_git_display_function['order']; 
+    }
+
+    # check for valid sort parameter
+    if (in_array(strtolower($mw_git_display_function['sort']), $mw_github_sort_params)) {
+        $mw_github_api_url = $mw_github_api_url . "?sort=" . $mw_git_display_function['sort']; 
+    }
+
+    # check for valid per_page parameter
+    if (is_numeric($mw_git_display_function['num'])) {
+        $mw_github_api_url = $mw_github_api_url . "?per_page=" . abs(intval($mw_git_display_function['num'])); 
+    }
 
     # go to Github, grab json data from Github, and decode it
     $mw_github_data = $json = wp_remote_get($mw_github_api_url);
 
-    // break early if JSON request ends in error
+    # break early if JSON request ends in error
     if( is_wp_error( $mw_github_data ) ) {
         return "<div class='mw-github-container'>We're sorry. There appeared to be an error. Please re-evaluate your shortcode.</div>"; // Bail early
     }
