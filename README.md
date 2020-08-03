@@ -72,7 +72,7 @@ Navigate to the page where the table is being displayed. Begin editing the page 
 ## Upgrade Notice
 
 ### 0.0.2
-This release gives the user more control of how the repositories are displayed in the table and how they are sorted via new `order` and `sort` attributes for the `[gitlist]` shortcode. Please see the README for information about all of the new options for these shortcode attributes available to you!
+This release gives the user more control of how the repositories are displayed in the table and how they are sorted via new `order` and `sort` attributes for the `[gitlist]` shortcode. Other shortcodes such as `num` and `user` have been added or modified. Please see the README for information about all of the new options for these shortcode attributes available to you!
 
 ### 0.0.1
 Initial release!
