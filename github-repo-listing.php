@@ -70,7 +70,7 @@ function mw_git_display_function( $attr ) {
     }
 
     # go to Github, grab json data from Github, and decode it
-    $mw_github_data = $json = wp_remote_get($mw_github_api_url);
+    $mw_github_data = $json = wp_remote_get(esc_html($mw_github_api_url));
 
     # break early if JSON request ends in error
     if( is_wp_error($mw_github_data)) {
