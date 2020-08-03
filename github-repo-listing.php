@@ -73,8 +73,8 @@ function mw_git_display_function( $attr ) {
     $mw_github_data = $json = wp_remote_get($mw_github_api_url);
 
     # break early if JSON request ends in error
-    if( is_wp_error( $mw_github_data ) ) {
-        return "<div class='mw-github-container'>We're sorry. There appeared to be an error. Please re-evaluate your shortcode.</div>"; // Bail early
+    if( is_wp_error($mw_github_data)) {
+        return "<html><div class='mw-github-container'>We're sorry. There appeared to be an error. Please re-evaluate your shortcode.</div></<html>"; // Bail early
     }
 
     # read decoded JSON data into an array
@@ -82,7 +82,7 @@ function mw_git_display_function( $attr ) {
 
     # check if array is empty -> if so, return early
     if (empty($mw_github_data_dict)) {
-        return "<div class='mw-github-container'>We could not find any public repositories for this user!</div>";
+        return "<html><div class='mw-github-container'>We could not find any public repositories for this user!</div></html>";
     }
 
     # generate HTML
@@ -97,7 +97,7 @@ function mw_git_display_function( $attr ) {
     # generate HTML for header row in table
     $mw_html_table_header_row = "<tr class='mw-github-header-row'>";
     foreach ($mw_html_th_cols as $mw_json_param => $mw_label) {
-        $mw_html_table_header_row = $mw_html_table_header_row . "<th class='mw-github-header' class='mw-" . $mw_json_param . "-data'>" . $mw_label . "</th>";
+        $mw_html_table_header_row = $mw_html_table_header_row . "<th class='mw-github-header' class='mw-" . esc_attr($mw_json_param) . "-data'>" . esc_attr($mw_label) . "</th>";
     }
     $mw_html_table_header_row = $mw_html_table_header_row . "</tr>";
 
@@ -110,9 +110,9 @@ function mw_git_display_function( $attr ) {
 
         foreach ($mw_html_th_cols as $mw_json_param => $mw_label) { # add every column being requested in html_th_cols
             if ($mw_json_param == "name") {
-                $mw_html_table_row = $mw_html_table_row . "<td class='mw-github-table-data mw-" . $mw_json_param . "-data'><a class='mw-github-link' href=\"" . $mw_repo["html_url"] . "\" target='_blank'>" . $mw_repo[$mw_json_param] . "</td>";
+                $mw_html_table_row = $mw_html_table_row . "<td class='mw-github-table-data mw-" . esc_attr($mw_json_param) . "-data'><a class='mw-github-link' href=\"" . esc_url($mw_repo["html_url"]) . "\" target='_blank'>" . esc_html($mw_repo[$mw_json_param]) . "</td>";
             } else {
-                $mw_html_table_row = $mw_html_table_row . "<td class='mw-github-table-data mw-" . $mw_json_param . "-data'>" . $mw_repo[$mw_json_param] . "</td>";
+                $mw_html_table_row = $mw_html_table_row . "<td class='mw-github-table-data mw-" . esc_attr($mw_json_param) . "-data'>" . esc_html($mw_repo[$mw_json_param]) . "</td>";
             }
         }
 
