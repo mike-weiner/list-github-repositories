@@ -97,7 +97,7 @@ function mw_git_display_function( $attr ) {
     # generate HTML for header row in table
     $mw_html_table_header_row = "<tr class='mw-github-header-row'>";
     foreach ($mw_html_th_cols as $mw_json_param => $mw_label) {
-        $mw_html_table_header_row = $mw_html_table_header_row . "<th class='mw-github-header' class='mw-" . esc_attr($mw_json_param) . "-data'>" . esc_attr($mw_label) . "</th>";
+        $mw_html_table_header_row = $mw_html_table_header_row . "<th class='mw-github-header' class='mw-" . esc_attr($mw_json_param) . "-data'>" . esc_html($mw_label) . "</th>";
     }
     $mw_html_table_header_row = $mw_html_table_header_row . "</tr>";
 
