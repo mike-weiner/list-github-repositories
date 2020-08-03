@@ -4,7 +4,7 @@ Donate Link: https://paypal.me/michaelw13 <br>
 Tags: github-api, github-list, github-table, wordpress-table  <br>
 Requires at least: 5.0 <br>
 Tested up to: 5.5 <br>
-Stable tag: 3.3.2 <br>
+Stable tag: 0.0.1 <br>
 Requires PHP: 7.0.0 <br>
 License: GPLv2 or later <br>
 License URI: https://www.gnu.org/licenses/gpl-2.0.html <br>
