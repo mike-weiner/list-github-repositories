@@ -5,7 +5,7 @@
  * Description: Display a table with information about all of the public repositories for a specific Github user.
  * Author: Michael Weiner
  * Author URI: https://michaelweiner.org/
- * Version: 0.0.3
+ * Version: 0.0.4
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -32,15 +32,12 @@ function mw_github_api_call_transient($mw_transient_id, $mw_api_url) {
 	if (!empty($mw_transient)) { # if the transient exists, we just need to return it
         return $mw_transient; 
 	} else {
-        # delete expired transient from the database
-        delete_transient($mw_transient_id);
-
         # go to Github, grab json data from Github, and decode it
         $mw_github_data = wp_remote_get(esc_html($mw_api_url));
 
         # break early if JSON request ends in error
         if (is_wp_error($mw_github_data)) {
-            return ("<html><div class='mw-github-container'>We're sorry. There appeared to be an error. Please re-evaluate your shortcode.</div></<html>");
+            return ("error");
         }
 
         # read decoded JSON data into an array
@@ -66,6 +63,7 @@ function mw_git_display_function($attr) {
 
     # array to store shortcode parameters
     $mw_git_display_function = shortcode_atts( array(
+        'excl' => '',
         'num' => '30',
         'order' => '',
         'sort' => '',
@@ -75,7 +73,11 @@ function mw_git_display_function($attr) {
      # strip out ALL spaces as the API URL cannot have any breaks
     $mw_git_display_function['user'] = preg_replace("/\s+/", "", $mw_git_display_function['user']);
 
-    # check that user attribute is NOT empty
+    # create array of repos to be ignored from the 'excl' shortcode attribute
+    $mw_git_display_function['excl'] = preg_replace("/\s+/", "", $mw_git_display_function['excl']); # strip out ALL spaces from the comma separated list of repos to exclude from the display
+    $mw_repos_to_ignore_arr = explode (",", $mw_git_display_function['excl']); # store slugs of repos to exclude in their own array
+
+    # check that user attribute is NOT empty -> if so, set the default to my github username
     if ($mw_git_display_function['user'] == '') {
         $mw_git_display_function['user'] = 'mike-weiner';
     } 
@@ -90,18 +92,17 @@ function mw_git_display_function($attr) {
     if (in_array(strtolower($mw_git_display_function['sort']), $mw_github_sort_params)) {
         $mw_github_api_url = $mw_github_api_url . "?sort=" . $mw_git_display_function['sort']; 
 
-        # establish placeholder for sort param for use in transient id
-        $mw_url_sort_placeholder = $mw_git_display_function['sort'];
+        $mw_url_sort_placeholder = $mw_git_display_function['sort']; # establish placeholder for sort param for use in transient id
+
     } else {
-        $mw_url_sort_placeholder = "full_name";
+        $mw_url_sort_placeholder = "full_name"; # establish placeholder for sort param for use in transient id
     }
 
     # check for valid order parameter
     if (in_array(strtolower($mw_git_display_function['order']), $mw_github_direction_params)) {
         $mw_github_api_url = $mw_github_api_url . "?direction=" . $mw_git_display_function['order'];
 
-        # establish placeholder for order param for use in transient id
-        $mw_url_order_placeholder = $mw_git_display_function['order'];
+        $mw_url_order_placeholder = $mw_git_display_function['order']; # establish placeholder for order param for use in transient id
 
     } else {
         # set placeholder for order param based on default values specified by Github API
@@ -112,6 +113,11 @@ function mw_git_display_function($attr) {
             $mw_url_order_placeholder = "desc";
         }
     }
+
+    # check for valid per_page parameter
+    if (is_numeric($mw_git_display_function['num'])) {
+        $mw_github_api_url = $mw_github_api_url . "?per_page=" . abs(intval($mw_git_display_function['num'])); 
+    }
     
     # create transient id for this particular shortcode call
     $mw_github_transient_id = $mw_prefix . "git-list-" . esc_html($mw_git_display_function['user']) . "-" . esc_html($mw_url_sort_placeholder) . "-" . esc_html($mw_url_order_placeholder) . "-" . esc_html(abs(intval($mw_git_display_function['num'])));
@@ -119,20 +125,22 @@ function mw_git_display_function($attr) {
     # grab/create transient
     $mw_github_transient = mw_github_api_call_transient($mw_github_transient_id, esc_html($mw_github_api_url));
 
-    # check if transient is empty -> if so, return early
+    # check if transient is empty -> if so, return early as the user has no public facing repos
     if (empty($mw_github_transient)) {
         return "<html><div class='mw-github-container'>We could not find any public repositories for this user!</div></html>";
     } 
 
-    # check if transient is a String (JSON error ocurred) -> if so, return early
-    if (is_string($mw_github_transient)) {
-        return ($mw_github_transient);
+    # check if transient is a String (JSON error ocurred) -> if so, return early as there was an error with the JSON request
+    if ($mw_github_transient == "error") {
+        return ("<html><div class='mw-github-container'>We're sorry. There appeared to be an error. Please re-evaluate your shortcode and try refreshing the page in 15 minutes.</div></<html>");
     }
 
-    # generate HTML
+    # begin to generate HTML
     $mw_html_output = "<html><div class='mw-github-container'><table>";
 
     # columns for HTML table
+    # this array's keys are the names of the JSON parameters we want to pull out of the array we get back from Github
+    # this array's values are the table header row values so we can be consistent with capitalization or re-word the column to be different than the JSON parameter name
     $mw_html_th_cols = array(
         "name" => "Repository",  
         "description" => "Description"
@@ -154,9 +162,14 @@ function mw_git_display_function($attr) {
     # add row to HTML table data for every repo in github_data_dict
     foreach ($mw_github_transient as $mw_repo){
 
-        # check that we have not gone over the number of repos the user wants to list & that we are under 100
-        if (!($mw_repo_count < abs(intval($mw_git_display_function['num']))) && ($mw_repo_count < 100)) {
+        # check that we have not gone over the number of repos the user wants to list
+        if (!($mw_repo_count < abs(intval($mw_git_display_function['num'])))) {
             break;
+        }
+
+        # check that the current repo was not specified by the user to be skipped using the 'excl' shortcode attribute -> if so, skip to next repo
+        if (!empty($mw_repos_to_ignore_arr) && in_array($mw_repo['name'], $mw_repos_to_ignore_arr)) {
+            continue;
         }
 
         $mw_html_table_row = "<tr class='mw-github-data-row'>"; # open HTML table row tag
