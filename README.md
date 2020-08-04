@@ -4,7 +4,7 @@ Donate Link: https://paypal.me/michaelw13 <br>
 Tags: github-api, github-list, github-table, wordpress-table  <br>
 Requires at least: 5.0 <br>
 Tested up to: 5.5 <br>
-Stable tag: 0.0.2 <br>
+Stable tag: 0.0.3 <br>
 Requires PHP: 7.0.0 <br>
 License: GPLv2 or later <br>
 License URI: https://www.gnu.org/licenses/gpl-2.0.html <br>
@@ -18,9 +18,9 @@ The display will default to show all of the publicly available repositories for 
 
 ### Shortcode Attributes
 This shortcode comes with a number of different shortcode modifiers to give you greater control over what is displayed and how it is displayed. All of the possible shortcode modifiers are listed and described below. 
-* `num` - A string that contains only an integer value to specify how many repositories you would like to display in the table. The default value will use the Github API default value of `30` when the parameter is left blank or when it is not included at all. ***Note: The Github API currently has a maximum of 100 repositories per page, so even if you enter a number of 100 only the first 100 repositories will be displayed.***
-* `order` - A string that allows you to choose in what order the repositories are displayed. The possible choices are `asc` and `desc`. The default value will use the Github API default value of `asc` when sorting by `full_name` (default) and `desc` when sorting by anything else.
-* `sort` - A string allowing you to specify in what way the repositories being displayed are sorted. Options include `created`, `updated`, `pushed`, and `full_name`. The default value will use the Github API default value of `full_name` when the parameter is left blank or when it is not included at all. 
+* `num` - A string that contains only an integer value to specify how many repositories you would like to display in the table. The default value of `30` is used when the parameter is left blank or when it is not included at all. This follows the default value set by the Github API. ***Note: The Github API currently has a maximum of 100 repositories per page, so even if you enter a number of 100 only the first 100 repositories will be displayed.***
+* `order` - A string that allows you to choose in what order the repositories are displayed. The possible choices are `asc` and `desc`. The default value of `asc` is used when the `sort` parameter is `full_name` (see details on the `sort` parameter below for these scenarios) and `desc` is used for all other scenarios. This follows the default value set by the Github API.
+* `sort` - A string allowing you to specify in what way the repositories being displayed are sorted. Options include `created`, `updated`, `pushed`, and `full_name`. The default value of `full_name` is used when the parameter is left blank or when it is not included at all. This follows the default value set by the Github API.
 * `user` - A string that takes in the Github username of the user that you would like to display repositories for. The default value of `mike-weiner` is used when the parameter is left blank or when it is not included at all. 
 
 You can find more about the Github API and its parameters here: https://developer.github.com/v3/repos/#list-repositories-for-a-user
@@ -46,6 +46,12 @@ Then navigate to the page you would like to display the table on. Begin editing 
 
 You can find your Github username within a Github URL or by selecting your profile picture in the upper right-hand corner of Github's website and copy the name listed under: "Signed in as". ***Do not include any symbols with the Github user name.*** 
 
+### Why is/are my table(s) not updating on every page refresh?
+
+This plugin makes use of a transient, a form of cache. This means all of your Github repository tables only update every 15 minutes on a page refresh. This keep API calls down and decreases the time it takes for your page to load. 
+
+Don't worry! Your table will update! Give it 15 minutes, come back, refresh the page, and you should see the any changes made!
+
 ### Why are the repositories being displayed not from the correct user?
 
 Navigate to the page where the table is being displayed. Begin editing the page and examine the `[gitlist user=""]` shortcode on the page. Double check that a Github username is entered within the double quotes after `user=` in the shortcode. Please check that this is the correct user name. 
@@ -56,12 +62,21 @@ Navigate to the page where the table is being displayed. Begin editing the page 
 
 ## Changelog
 
+### 0.0.3
+* Released on August 3, 2020
+* Added: Transient cache for all Github display tables you have across your site. Each table will update on the first page refresh every 15 minutes
+* Added: A new FAQ question has been added covering the transient cache feature
+* Updated: Updated README shortcode attribute descriptions
+* Fixed: Fixed a typo in changelog for v0.0.2
+* Edited: github-repo-listing.php
+* Edited: README.md
+
 ### 0.0.2
 * Released on August 3, 2020
 * Added: Shortcode attribute `num` allows the user to specify how many repositories should be displayed. (Note: Current limit from Github API is 100)
 * Added: Shortcode attribute `order` allows the user to specify if the repository table should be displayed in `asc` or `desc` order
 * Added: Shortcode attribute `sort` allows the user to specify if repositories should be sorted by `created` (date), `updated` (date), `pushed` (date) or by `full_name` (repo name)
-* Modifed: Shortcode attribute `git-user` has been renamed to `user` for clarity
+* Modified: Shortcode attribute `git-user` has been renamed to `user` for clarity
 * Edited: github-repo-listing.php
 * Edited: README.md
 
@@ -70,6 +85,9 @@ Navigate to the page where the table is being displayed. Begin editing the page 
 * Initial release
 
 ## Upgrade Notice
+
+### 0.0.3
+This update introduces a 15 minute cache for displaying updates on your Github display table. This means your Github table will update on the first page refresh after 15 minutes. This was accomplished through using WordPress transients and will help to keep your page load times down.
 
 ### 0.0.2
 This release gives the user more control of how the repositories are displayed in the table and how they are sorted via new `order` and `sort` attributes for the `[gitlist]` shortcode. Other shortcodes such as `num` and `user` have been added or modified. Please see the README for information about all of the new options for these shortcode attributes available to you!
