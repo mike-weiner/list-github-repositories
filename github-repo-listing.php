@@ -31,6 +31,7 @@ function mw_github_api_call_transient($mw_transient_id, $mw_api_url) {
   
 	if (!empty($mw_transient)) { # if the transient exists, we just need to return it
         return $mw_transient; 
+        
 	} else {
         # go to Github, grab json data from Github, and decode it
         $mw_github_data = wp_remote_get(esc_html($mw_api_url));
