@@ -36,8 +36,8 @@ function mw_github_api_call_transient($mw_transient_id, $mw_api_url) {
         $mw_github_data = wp_remote_get(esc_html($mw_api_url));
 
         # break early if JSON request ends in error
-        if( is_wp_error($mw_github_data)) {
-            return ("<html><div class='mw-github-container'>We're sorry. There appeared to be an error. Please re-evaluate your shortcode.</div></<html>"); // return an empty array
+        if (is_wp_error($mw_github_data)) {
+            return ("<html><div class='mw-github-container'>We're sorry. There appeared to be an error. Please re-evaluate your shortcode.</div></<html>");
         }
 
         # read decoded JSON data into an array
